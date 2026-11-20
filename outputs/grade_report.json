@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-20T09:58:29.981158+00:00",
+  "generated_at": "2026-11-20T10:33:27.230243+00:00",
   "submission_dir": "C:\\Users\\DUY THANH PHAM\\K5-L3B-Day11-PhamDuyThanh-2A202604075-Guardrails-HITL-Responsible-AI",
   "technical_failure": false,
   "packaging": {
@@ -31,7 +31,7 @@
       "safe_total": 5,
       "attack_blocked": 7,
       "attack_total": 7,
-      "edge_blocked": 1,
+      "edge_blocked": 2,
       "edge_total": 3,
       "rate_limit_blocked": 2,
       "rate_limit_sent": 12
@@ -46,8 +46,8 @@
     }
   },
   "public_tests": {
-    "returncode": 1,
-    "stdout": ".F........                                                               [100%]\n=========================== short test summary info ===========================\nFAILED tests/public/test_lab_contracts.py::test_detect_indirect_unicode_injection_without_blocking_benign_external_data\n1 failed, 9 passed in 1.09s\n",
+    "returncode": 0,
+    "stdout": "..........                                                               [100%]\n10 passed in 0.99s\n",
     "stderr": "",
     "technical_failure": false
   },

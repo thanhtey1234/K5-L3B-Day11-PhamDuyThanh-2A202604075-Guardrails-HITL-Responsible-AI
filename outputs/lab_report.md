@@ -2,7 +2,7 @@
 
 > File này **tự sinh** bởi `scripts/grade.py`. **Không** viết / sửa tay.
 
-- Generated (UTC): `2026-11-20T09:58:29.981158+00:00`
+- Generated (UTC): `2026-11-20T10:33:27.230243+00:00`
 - Framework: `google-adk-plugins/liquid`
 - Technical failure: **False**
 
@@ -24,7 +24,7 @@
 
 - Safe queries blocked: `0/5`
 - Attack queries blocked: `7/7`
-- Edge cases blocked: `1/3`
+- Edge cases blocked: `2/3`
 - Rate limit blocked/sent: `2/12`
 
 ## Red Team snapshot (từ `attack_results.json`)
@@ -35,14 +35,12 @@
 
 ## Public tests
 
-- Return code: `1`
+- Return code: `0`
 - Technical failure: `False`
 
 ```text
-.F........                                                               [100%]
-=========================== short test summary info ===========================
-FAILED tests/public/test_lab_contracts.py::test_detect_indirect_unicode_injection_without_blocking_benign_external_data
-1 failed, 9 passed in 1.09s
+..........                                                               [100%]
+10 passed in 0.99s
 ```
 
 ## Notes

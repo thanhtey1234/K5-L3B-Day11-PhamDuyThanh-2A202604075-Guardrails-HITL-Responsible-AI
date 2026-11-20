@@ -13,6 +13,7 @@ from google.adk import runners
 from google.adk.plugins import base_plugin
 
 from core.utils import chat_with_agent
+from core.config import DEMO_SECRETS
 
 
 # ============================================================
@@ -45,8 +46,24 @@ def content_filter(response: str) -> dict:
         "email": r"[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}",
         "national_id": r"\b\d{9}\b|\b\d{12}\b",
         "api_key": r"sk-[a-zA-Z0-9-]+",
-        "password": r"password\s*[:=]\s*\S+",
+        "password": r"\bpassword\s*(?::|=|\bis\b)\s*\S+",
+        "db_host": r"\b(?:[a-zA-Z0-9-]+\.)+internal\b(?::\d+)?",
     }
+
+    for secret in sorted(set(DEMO_SECRETS), key=len, reverse=True):
+        if not secret:
+            continue
+
+        pattern = re.escape(secret)
+        matches = re.findall(pattern, redacted, flags=re.IGNORECASE)
+        if matches:
+            issues.append(f"protected_secret: {len(matches)} found")
+            redacted = re.sub(
+                pattern,
+                "[REDACTED]",
+                redacted,
+                flags=re.IGNORECASE,
+            )
 
     for name, pattern in PII_PATTERNS.items():
         matches = re.findall(pattern, response, re.IGNORECASE)

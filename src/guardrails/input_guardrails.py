@@ -18,6 +18,7 @@ from google.adk.plugins import base_plugin
 from google.adk.agents.invocation_context import InvocationContext
 
 from core.config import ALLOWED_TOPICS, BLOCKED_TOPICS
+import unicodedata
 
 # Quyết định rõ ràng — tránh đảo nghĩa True/False
 InputStatus = Literal["ALLOW", "BLOCK"]
@@ -42,6 +43,11 @@ InputStatus = Literal["ALLOW", "BLOCK"]
 # Regex is one signal, not the whole security boundary.
 # ============================================================
 
+def normalize_input(text: str) -> str:
+    normalized = unicodedata.normalize("NFKC", text)
+    invisible_chars = "\u200b\u200c\u200d\ufeff\u2060"
+    return normalized.translate(str.maketrans("", "", invisible_chars))
+
 def detect_injection(user_input: str) -> InputStatus:
     """Detect prompt injection patterns in user input.
 
@@ -51,6 +57,9 @@ def detect_injection(user_input: str) -> InputStatus:
     Returns:
         ``"BLOCK"`` if injection detected (chặn), ``"ALLOW"`` otherwise (cho qua).
     """
+
+    user_input = normalize_input(user_input)
+
     INJECTION_PATTERNS = [
         r"\bignore\s+(?:all\s+)?(?:previous|above)\s+instructions\b",
         r"\byou\s+are\s+now\b",
@@ -87,7 +96,7 @@ def topic_filter(user_input: str) -> InputStatus:
         ``"BLOCK"`` = chặn (off-topic hoặc topic cấm).
         ``"ALLOW"`` = cho qua (câu banking hợp lệ).
     """
-    input_lower = user_input.lower()
+    input_lower = normalize_input(user_input).casefold()
 
     if any(topic in input_lower for topic in BLOCKED_TOPICS):
         return "BLOCK"
